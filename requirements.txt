@@ -1,0 +1,8 @@
+python 
+numpy
+torch 
+torchvision 
+torchaudio
+flask
+transformers
+urllib
