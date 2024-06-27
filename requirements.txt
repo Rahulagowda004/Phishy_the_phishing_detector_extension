@@ -1,8 +1,6 @@
-python==3.11
 numpy
 torch 
 torchvision 
 torchaudio
 flask
 transformers
-urllib
