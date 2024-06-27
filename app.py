@@ -32,7 +32,7 @@ def receive_data():
         
         print(f'Received input from HTML: {decoded_input}')
         
-        model_directory = r"D:\phishing_detection_extension_using_machine_learning\model"
+        model_directory = r"model"
         tokenizer = AutoTokenizer.from_pretrained(model_directory)
         model = AutoModelForSequenceClassification.from_pretrained(model_directory)
         
