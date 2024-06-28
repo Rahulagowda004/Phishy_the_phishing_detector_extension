@@ -58,8 +58,6 @@ def receive_data():
             
         print(f"Predicted Label: {result1}")
         return render_template('plugin_ui.html', result=result1)
-        with open("output.txt",'w') as f: 
-            f.write(result1)
         
     return result1
 
