@@ -1,3 +1,11 @@
 .venv/*
 
 model/*
+
+node_modules/*
+
+package-lock.json
+
+package.json
+
+__pycache__
