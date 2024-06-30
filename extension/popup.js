@@ -1,17 +1,17 @@
 document.getElementById("check").addEventListener("click", async () => {
-  let url = document.getElementById("sms").value.trim();
+  let user_input = document.getElementById("sms").value.trim();
 
-  if (url === "") {
+  if (user_input === "") {
     alert("Please enter a valid sms/mail/URL.");
     return;
   }
 
-  fetch("http://localhost:5000/url", {
+  fetch("http://localhost:5000/user_input", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ url: url }),
+    body: JSON.stringify({ user_input: user_input }),
   })
     .then((response) => response.json())
     .then((data) => {
