@@ -1,20 +1,22 @@
-document
-  .getElementById("fetchUrlButton")
-  .addEventListener("click", async () => {
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    let url = tab.url;
+document.getElementById("check").addEventListener("click", async () => {
+  let user_input = document.getElementById("sms").value.trim();
 
-    fetch("http://localhost:5000/url", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url: url }),
+  if (user_input === "") {
+    alert("Please enter a valid sms/mail/URL.");
+    return;
+  }
+
+  fetch("http://localhost:5000/user_input", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user_input: user_input }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("response").innerText =
+        "Response: " + JSON.stringify(data);
     })
-      .then((response) => response.json())
-      .then((data) => {
-        document.getElementById("response").innerText =
-          "Response: " + JSON.stringify(data);
-      })
-      .catch((error) => console.error("Error:", error));
-  });
+    .catch((error) => console.error("Error:", error));
+});
