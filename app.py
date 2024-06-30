@@ -16,13 +16,8 @@ CORS(app)
 log = logging.getLogger('werkzeug')
 log.disabled = True
 
-# Define global variables to store URL and user_input
-url = ''
-user_input = ''
-
 @app.route('/url', methods=['POST'])
 def receive_url():
-    global url
     data = request.get_json()
     url = data.get('url')
     # print(url)  # Print the URL only
@@ -30,7 +25,6 @@ def receive_url():
 
 @app.route('/user_input', methods=['POST'])
 def receive_user_input():
-    global user_input
     data = request.get_json()
     user_input = data.get('user_input')
     # print(user_input)  # Print the user_input only
