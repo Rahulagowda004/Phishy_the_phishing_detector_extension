@@ -1,20 +1,22 @@
-document
-  .getElementById("fetchUrlButton")
-  .addEventListener("click", async () => {
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    let url = tab.url;
+document.getElementById("check").addEventListener("click", async () => {
+  let url = document.getElementById("sms").value.trim();
 
-    fetch("http://localhost:5000/url", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url: url }),
+  if (url === "") {
+    alert("Please enter a valid URL.");
+    return;
+  }
+
+  fetch("http://localhost:5000/url", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ url: url }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("response").innerText =
+        "Response: " + JSON.stringify(data);
     })
-      .then((response) => response.json())
-      .then((data) => {
-        document.getElementById("response").innerText =
-          "Response: " + JSON.stringify(data);
-      })
-      .catch((error) => console.error("Error:", error));
-  });
+    .catch((error) => console.error("Error:", error));
+});
