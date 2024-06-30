@@ -2,7 +2,7 @@ document.getElementById("check").addEventListener("click", async () => {
   let url = document.getElementById("sms").value.trim();
 
   if (url === "") {
-    alert("Please enter a valid URL.");
+    alert("Please enter a valid sms/mail/URL.");
     return;
   }
 
