@@ -1,6 +1,11 @@
+import warnings
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from flask import Flask, request
 from flask_cors import CORS
 import logging
+warnings.filterwarnings('ignore', category=UserWarning)
+warnings.filterwarnings('ignore', message="A module that was compiled using NumPy 1.x cannot be run in NumPy 2.0.0")
 
 app = Flask(__name__)
 CORS(app)
