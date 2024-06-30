@@ -22,18 +22,14 @@ classficier = URLClassifier()
 def receive_url():
     data = request.get_json()
     url = data.get('url')
-    print(url)  # Print the URL only
-    result = classficier.classify_url(url)
-    print(result)
+    # print(url)  # Print the URL only
     return '', 200  # Return an empty response with status 200
 
 @app.route('/user_input', methods=['POST'])
 def receive_user_input():
     data = request.get_json()
     user_input = data.get('user_input')
-    print(user_input)  # Print the user_input only
-    result = classficier.classify_url(user_input)
-    print(result)
+    # print(user_input)  # Print the user_input only
     return '', 200  # Return an empty response with status 200
 
 if __name__ == '__main__':
