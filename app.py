@@ -41,7 +41,7 @@ def receive_user_input():
     if result == 0:
         return render_template("popup.html",user_input_result = "the content is secure")
     else : 
-        return render_template("popup.html",user_input_result = "the content is not secure")
+        return render_template("popup.html",user_input_result = "the content is not secure"),200
     return '', 200  # Return an empty response with status 200
 
 if __name__ == '__main__':
