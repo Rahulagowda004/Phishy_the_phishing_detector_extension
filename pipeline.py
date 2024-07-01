@@ -27,12 +27,7 @@ class URLClassifier:
         # Get predicted label (assuming a binary classification)
         predicted_label = probs.argmax().item()
         
-        if predicted_label == 1:
-            return 'site is not secure'
-        elif predicted_label == 0:
-            return 'site is secure'
-        else:
-            return 'unknown classification'
+        return predicted_label
 
 # Example usage
 if __name__ == '__main__':
