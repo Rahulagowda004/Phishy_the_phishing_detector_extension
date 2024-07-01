@@ -26,9 +26,11 @@ def receive_url():
     result = classficier.classify_url(url)
     print(result)
     if result == 0:
-        return render_template("popup.html",url_result = "the site is secure")
-    else : 
-        return render_template("popup.html",url_result = "the site is not secure")
+        print("the url is secure")
+        return render_template("index.html", url_result = "the url is secure")
+    else :
+        print("the url is not secure")
+        return render_template("index.html", url_result = "the url is not secure")
     return '', 200  # Return an empty response with status 200
 
 @app.route('/user_input', methods=['POST'])
@@ -38,10 +40,12 @@ def receive_user_input():
     print(user_input)  # Print the user_input only
     result = classficier.classify_url(user_input)
     print(result)
-    if result == 0:
-        return render_template("popup.html",user_input_result = "the content is secure")
+    if result == 0 :
+        print("the content is secure")
+        return render_template("index.html",user_input_result = "the content is secure")
     else : 
-        return render_template("popup.html",user_input_result = "the content is not secure"),200
+        print("")
+        return render_template("index.html",user_input_result = "the content is not secure")
     return '', 200  # Return an empty response with status 200
 
 if __name__ == '__main__':
