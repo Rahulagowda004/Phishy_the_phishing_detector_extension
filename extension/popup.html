@@ -16,12 +16,17 @@
       button:hover {
         background-color: #45a049;
       }
+      .output {
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
     <input type="text" id="sms" placeholder="Enter the sms/mail/url" />
-    <button id="check">check</button>
-    <div id="response"></div>
+    <button id="check">Check</button>
+    <div id="fetched-url" class="output"></div>
+    <div id="result-url" class="output"></div>
+    <div id="result-input" class="output"></div>
     <script src="popup.js"></script>
   </body>
 </html>
