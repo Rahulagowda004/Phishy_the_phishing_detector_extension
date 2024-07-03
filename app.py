@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import logging
 from pipeline import URLClassifier
+import json
 
 warnings.filterwarnings('ignore', category=UserWarning)
 warnings.filterwarnings('ignore', message="A module that was compiled using NumPy 1.x cannot be run in NumPy 2.0.0")
@@ -39,6 +40,22 @@ def clean_url(input_url):
     cleaned_url = urlunparse((scheme, netloc, path, '', query, ''))
     return cleaned_url
 
+def append_to_json(text, label):
+    try:
+        # Try to load existing data from the file
+        with open("artifacts/data.json", 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        # If file doesn't exist yet, start with an empty list
+        data = []
+
+    # Append new entry to the data list
+    data.append({"text": text, "label": label})
+
+    # Write the updated data back to the file
+    with open("artifacts/data.json", 'w') as f:
+        json.dump(data, f, indent=2)
+        
 @app.route('/url', methods=['POST'])
 def receive_url():
     data = request.get_json()
@@ -46,6 +63,7 @@ def receive_url():
     url = clean_url(url)
     print(url)
     label_url = classifier.classify_url(url)
+    append_to_json(url, label_url)
     if label_url == 0 : 
         result_url = "site is secure"
     elif label_url == 1 :
@@ -63,6 +81,7 @@ def receive_user_input():
         result_input = "input is secure"
     elif label_input == 1 :
         result_input = "input is not secure"
+    append_to_json(user_input, label_input)
     print("Input :", result_input)
     return jsonify(result_input=result_input), 200  # Return the result_input in the response
 
