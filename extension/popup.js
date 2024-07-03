@@ -15,8 +15,6 @@ document.getElementById("check").addEventListener("click", async () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("response").innerText =
-        "Response: " + JSON.stringify(data);
       document.getElementById("result-input").innerText =
         "Result Input: " + data.result_input;
     })
