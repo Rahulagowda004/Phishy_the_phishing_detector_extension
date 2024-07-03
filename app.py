@@ -7,6 +7,7 @@ from flask_cors import CORS
 import logging
 from pipeline import URLClassifier
 import json
+import os
 
 warnings.filterwarnings('ignore', category=UserWarning)
 warnings.filterwarnings('ignore', message="A module that was compiled using NumPy 1.x cannot be run in NumPy 2.0.0")
@@ -41,21 +42,19 @@ def clean_url(input_url):
     return cleaned_url
 
 def append_to_json(text, label):
+    file_path = "artifacts/data.json"
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
     try:
-        # Try to load existing data from the file
-        with open("artifacts/data.json", 'r') as f:
+        with open(file_path, 'r') as f:
             data = json.load(f)
-    except FileNotFoundError:
-        # If file doesn't exist yet, start with an empty list
+    except (FileNotFoundError, json.JSONDecodeError):
         data = []
 
-    # Append new entry to the data list
     data.append({"text": text, "label": label})
 
-    # Write the updated data back to the file
-    with open("artifacts/data.json", 'w') as f:
+    with open(file_path, 'w') as f:
         json.dump(data, f, indent=2)
-        
+
 @app.route('/url', methods=['POST'])
 def receive_url():
     data = request.get_json()
@@ -64,26 +63,20 @@ def receive_url():
     print(url)
     label_url = classifier.classify_url(url)
     append_to_json(url, label_url)
-    if label_url == 0 : 
-        result_url = "site is secure"
-    elif label_url == 1 :
-        result_url = "site is not secure"
-    print("SITE :", result_url)
-    return jsonify(result_url=result_url), 200  # Return the result_url in the response
+    result_url = "site is secure" if label_url == 0 else "site is not secure"
+    print("SITE:", result_url)
+    return jsonify(result_url=result_url), 200
 
 @app.route('/user_input', methods=['POST'])
 def receive_user_input():
     data = request.get_json()
     user_input = data.get('user_input')
-    print(user_input)  # Print the user_input only
+    print(user_input)
     label_input = classifier.classify_url(user_input)
-    if label_input == 0 :
-        result_input = "input is secure"
-    elif label_input == 1 :
-        result_input = "input is not secure"
+    result_input = "input is secure" if label_input == 0 else "input is not secure"
     append_to_json(user_input, label_input)
-    print("Input :", result_input)
-    return jsonify(result_input=result_input), 200  # Return the result_input in the response
+    print("Input:", result_input)
+    return jsonify(result_input=result_input), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
