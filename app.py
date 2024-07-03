@@ -22,12 +22,10 @@ classifier = URLClassifier()
 def clean_url(input_url):
     # Parse the URL
     parsed_url = urlparse(input_url)
-    
     # Extract scheme, netloc (domain), and path
     scheme = parsed_url.scheme
     netloc = parsed_url.netloc
     path = parsed_url.path
-    
     # Extract and clean query parameters
     if parsed_url.query:
         query_params = parse_qs(parsed_url.query)
@@ -37,10 +35,8 @@ def clean_url(input_url):
             query = ""
     else:
         query = ""
-    
     # Reconstruct the cleaned URL
     cleaned_url = urlunparse((scheme, netloc, path, '', query, ''))
-    
     return cleaned_url
 
 @app.route('/url', methods=['POST'])

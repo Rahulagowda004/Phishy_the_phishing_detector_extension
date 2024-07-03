@@ -27,12 +27,6 @@ class URLClassifier:
         # Get predicted label (assuming a binary classification)
         predicted_label = probs.argmax().item()
         
-        # if predicted_label == 1:
-        #     return 'site is not secure'
-        # elif predicted_label == 0:
-        #     return 'site is secure'
-        # else:
-        #     return 'unknown classification'
         return predicted_label
 
 # Example usage
@@ -42,3 +36,6 @@ if __name__ == '__main__':
     user_input = "example input string"  # replace with your actual input string
     result = classifier.classify_url(user_input)
     print(result)
+    
+    
+# https://huggingface.co/ealvaradob/bert-finetuned-phishing/tree/main link of the model
