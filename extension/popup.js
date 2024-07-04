@@ -23,7 +23,6 @@ document.getElementById("check").addEventListener("click", async () => {
 
 chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
   let url = tab.url;
-  document.getElementById("fetched-url").innerText = "Fetched URL: " + url;
 
   fetch("http://localhost:5000/url", {
     method: "POST",
@@ -34,6 +33,8 @@ chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
   })
     .then((response) => response.json())
     .then((data) => {
+      document.getElementById("fetched-url").innerText =
+        "Fetched_URL: " + data.url;
       document.getElementById("result-url").innerText =
         "Result URL: " + data.result_url;
     })

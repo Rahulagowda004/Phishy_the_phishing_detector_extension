@@ -59,13 +59,13 @@ def append_to_json(text, label):
 def receive_url():
     data = request.get_json()
     url = data.get('url')
-    url = clean_url(url)
-    print(url)
-    label_url = classifier.classify_url(url)
+    cleaned_url = clean_url(url)
+    print(cleaned_url)
+    label_url = classifier.classify_url(cleaned_url)
     append_to_json(url, label_url)
     result_url = "site is secure" if label_url == 0 else "site is not secure"
     print("SITE:", result_url)
-    return jsonify(result_url=result_url), 200
+    return jsonify(result_url=result_url,url = cleaned_url), 200
 
 @app.route('/user_input', methods=['POST'])
 def receive_user_input():
