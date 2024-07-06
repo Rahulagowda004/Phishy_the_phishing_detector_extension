@@ -5,3 +5,7 @@ model/*
 __pycache__/*
 
 artifacts/*
+
+.json/*
+
+fine-tuned model/*
