@@ -66,6 +66,10 @@ def receive_url():
     label_url = classifier.classify_url(cleaned_url)
     append_to_json(url, label_url)
     result_url = "site is secure" if label_url == 0 else "site is not secure"
+    if result_url == "site is secure":
+        non_phishy_count += 1
+    elif result_url == "site is not secure":
+        phishy_count += 1
     print("SITE:", result_url)
     return jsonify(result_url=result_url,url = cleaned_url,phishy_count = phishy_count,non_phishy_count = non_phishy_count), 200
 
