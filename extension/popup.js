@@ -37,6 +37,10 @@ chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
         "Fetched_URL: " + data.url;
       document.getElementById("result-url").innerText =
         "Result URL: " + data.result_url;
+      document.getElementById("non_phishy_count").innerText =
+        "non phishy count: " + data.non_phishy_count;
+      document.getElementById("phishy_count").innerText =
+        "phishy count: " + data.phishy_count;
     })
     .catch((error) => console.error("Error:", error));
 });
