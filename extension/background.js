@@ -17,6 +17,16 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         })
         .then((data) => {
           console.log("Response:", data);
+          if (data.result_url === "site is not secure") {
+            // Redirect to warning page
+            chrome.tabs.update(tabId, { url: "warning.html" });
+          } else {
+            // Continue with the redirection or normal operation
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle errors if needed
         });
     }
   }

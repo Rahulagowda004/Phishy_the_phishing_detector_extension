@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Fetch and Send URL",
+  "name": "Phishy Detector",
   "version": "1.0",
-  "permissions": ["activeTab", "tabs"],
+  "permissions": ["tabs", "activeTab"],
   "background": {
     "service_worker": "background.js"
   },
