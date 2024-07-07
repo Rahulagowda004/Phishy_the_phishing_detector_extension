@@ -78,5 +78,17 @@
   {
     "text": "chrome://newtab/",
     "label": 0
+  },
+  {
+    "text": "chrome://newtab/",
+    "label": 1
+  },
+  {
+    "text": "https://www.youtube.com/",
+    "label": 0
+  },
+  {
+    "text": "https://yale-angel-properly-davidson.trycloudflare.com/",
+    "label": 1
   }
 ]
