@@ -2,12 +2,13 @@ import warnings
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from urllib.parse import urlparse, parse_qs, urlunparse
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import logging
-from pipeline import URLClassifier
 import json
 import os
+
+from pipeline import URLClassifier  # Assuming URLClassifier is defined in pipeline.py
 
 warnings.filterwarnings('ignore', category=UserWarning)
 warnings.filterwarnings('ignore', message="A module that was compiled using NumPy 1.x cannot be run in NumPy 2.0.0")
@@ -41,46 +42,58 @@ def clean_url(input_url):
     cleaned_url = urlunparse((scheme, netloc, path, '', query, ''))
     return cleaned_url
 
-def append_to_json(text, label):
-    file_path = "artifacts/data.json"
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+def append_to_json(file_path, data):
     try:
         with open(file_path, 'r') as f:
-            data = json.load(f)
+            existing_data = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
-        data = []
+        existing_data = []
 
-    data.append({"text": text, "label": label})
+    existing_data.append(data)
 
     with open(file_path, 'w') as f:
-        json.dump(data, f, indent=2)
+        json.dump(existing_data, f, indent=2)
+
+phishy_count = 0
+non_phishy_count = 0
 
 @app.route('/url', methods=['POST'])
 def receive_url():
-    phishy_count = 0
-    non_phishy_count = 0
+    global phishy_count, non_phishy_count  # Declare them as global variables
     data = request.get_json()
     url = data.get('url')
     cleaned_url = clean_url(url)
-    print(cleaned_url)
-    label_url = classifier.classify_url(cleaned_url)
-    append_to_json(url, label_url)
+    print("Cleaned URL:", cleaned_url)
+    with open(r'artifacts\cache.txt', 'r') as cache_file:
+        cached_urls = cache_file.read().splitlines()
+    if cleaned_url in cached_urls:
+        label_url = 0
+    else:
+        label_url = classifier.classify_url(cleaned_url)
     result_url = "site is secure" if label_url == 0 else "site is not secure"
+    append_to_json("artifacts/data.json", {
+        "text": cleaned_url,
+        "label": label_url
+    })
     if result_url == "site is secure":
         non_phishy_count += 1
     elif result_url == "site is not secure":
         phishy_count += 1
     print("SITE:", result_url)
-    return jsonify(result_url=result_url,url = cleaned_url,phishy_count = phishy_count,non_phishy_count = non_phishy_count), 200
+    return jsonify(result_url=result_url, url=cleaned_url, phishy_count=phishy_count, non_phishy_count=non_phishy_count), 200
 
 @app.route('/user_input', methods=['POST'])
 def receive_user_input():
     data = request.get_json()
     user_input = data.get('user_input')
-    print(user_input)
+    print("User Input:", user_input)
     label_input = classifier.classify_url(user_input)
     result_input = "input is secure" if label_input == 0 else "input is not secure"
-    append_to_json(user_input, label_input)
+    append_to_json("artifacts/data.json", {
+        "input": user_input,
+        "label": label_input,
+        "result": result_input
+    })
     print("Input:", result_input)
     return jsonify(result_input=result_input), 200
 
