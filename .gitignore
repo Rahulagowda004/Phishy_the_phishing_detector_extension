@@ -5,9 +5,3 @@ model/*
 __pycache__/*
 
 artifacts/*
-
-artifacts/data.json/*
-
-fine_tune model/*
-
-dataset/*
