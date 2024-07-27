@@ -64,7 +64,7 @@ def receive_url():
     url = data.get('url')
     cleaned_url = clean_url(url)
     print("Cleaned URL:", cleaned_url)
-    with open(r'artifacts\cache.txt', 'r') as cache_file:
+    with open(r'cache.txt', 'r') as cache_file:
         cached_urls = cache_file.read().splitlines()
     if cleaned_url in cached_urls:
         label_url = 0

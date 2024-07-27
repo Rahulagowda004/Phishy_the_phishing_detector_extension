@@ -37,5 +37,3 @@ if __name__ == '__main__':
     result = classifier.classify_url(user_input)
     print(result)
     
-    
-# https://huggingface.co/ealvaradob/bert-finetuned-phishing/tree/main link of the model
